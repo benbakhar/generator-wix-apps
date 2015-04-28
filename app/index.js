@@ -81,16 +81,20 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   copyMainFiles: function() {
-    var type, base;
+    var type, base, context;
     for ( var i = 0; i < _modules.length; i++ ) {
       type = _modules[i];
       base = 'app/' + type;
 
       if ( !this['add_' + type] ) { break; }
 
+      context = { app_name: this.appName+ '.' + type };
+      this.template("_app.js", base + '/' + type + '.js', context);
+      this.template("_config.js", base + '/' + type + '.config.js', context);
+      this.template("_run.js", base + '/' + type + '.run.js', context);
       this.copy("_main.css", base + "/css/main.css");
 
-      var context = { site_name: this.appName };
+      context = { type: type, site_name: this.appName, app_name: this.appName+ '.' + type };
       this.template("_index.html", base + "/index.html", context);
     }
   },
@@ -118,6 +122,7 @@ module.exports = yeoman.generators.Base.extend({
 
   install: function () {
     console.log(chalk.green('Install dependencies'));
-    this.installDependencies();
+    //this.installDependencies();
+    console.log(chalk.green('Finished'));
   }
 });

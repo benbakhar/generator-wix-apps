@@ -1,6 +1,17 @@
 {
   "name": "package",
   "version": "0.1.0",
+  "main": "server/app.js",
+  "dependencies": {
+    "body-parser": "~1.5.0",
+    "express": "~4.0.0",
+    "express-validator": "^2.8.0",
+    "lodash": "~2.4.1",
+    "method-override": "~1.0.0",
+    "mongoose": "~3.8.8",
+    "morgan": "~1.0.0",
+    "q": "^1.2.0"
+  },
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-contrib-connect": "~0.6.0",

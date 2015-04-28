@@ -1,17 +1,20 @@
 <html>
 <head>
+
+    <base href="<%= type %>">
     <title><%= site_name %></title>
-    <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
 </head>
-<body>
+<body data-ng-app="<%= app_name %>">
 <div class="container">
-    <div class="jumbotron">
-        <h1><%= site_name %>!</h1>
-        <p class="lead">
-            Always a pleasure scaffolding your apps.
-        </p>
-        <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!<span class="glyphicon glyphicon-ok"></span></a></p>
-    </div>
+
+    <button data-ng-click="count = count+1" data-ng-init="count = 1">{{count}}</button>
 </div>
+
+<script src="../../bower_components/angular/angular.js"></script>
+<script src="../../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="<%= type %>.js"></script>
+<script src="<%= type %>.config.js"></script>
+<script src="<%= type %>.run.js"></script>
+<!--<script src="<%= type %>.router.js"></script>-->
 </body>
 </html>
