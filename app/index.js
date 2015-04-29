@@ -15,8 +15,6 @@ module.exports = yeoman.generators.Base.extend({
   prompting: function () {
     var done = this.async();
 
-    console.log(_modules);
-
     // Have Yeoman greet the user.
     this.log(this.yeoman);
     this.log(yosay(
@@ -78,10 +76,17 @@ module.exports = yeoman.generators.Base.extend({
       mkdirp.sync( base + '/services' );
       mkdirp.sync( base + '/directives' );
     }
+
+    mkdirp.sync('server');
+    mkdirp.sync('server/config');
+    mkdirp.sync('server/api');
+    mkdirp.sync('server/api/users');
   },
 
   copyMainFiles: function() {
     var type, base, context;
+
+    // Copy client files
     for ( var i = 0; i < _modules.length; i++ ) {
       type = _modules[i];
       base = 'app/' + type;
@@ -89,40 +94,43 @@ module.exports = yeoman.generators.Base.extend({
       if ( !this['add_' + type] ) { break; }
 
       context = { app_name: this.appName+ '.' + type };
-      this.template("_app.js", base + '/' + type + '.js', context);
-      this.template("_config.js", base + '/' + type + '.config.js', context);
-      this.template("_run.js", base + '/' + type + '.run.js', context);
-      this.copy("_main.css", base + "/css/main.css");
+      this.template("js/_app.js", base + '/' + type + '.js', context);
+      this.template("js/_config.js", base + '/' + type + '.config.js', context);
+      this.template("js/_run.js", base + '/' + type + '.run.js', context);
+      this.copy("sass/_main.css", base + "/css/main.css");
 
       context = { type: type, site_name: this.appName, app_name: this.appName+ '.' + type };
-      this.template("_index.html", base + "/index.html", context);
+      this.template("html/_index.html", base + '/' + type +".html", context);
     }
+
+    // Copy server files
+    this.copy('js/_server.js', 'server/server.js');
+    this.copy('js/_routes.js', 'server/routes.js');
+    this.copy('js/_db.js', 'server/config/db.js');
+    this.template('js/_config.json', 'server/config/config.json', {app_name: this.appName});
+    this.copy('js/_usersAPI.js', 'server/api/users/usersAPI.js');
   },
 
   writing: {
     app: function () {
-      console.log(chalk.green('Writing package.json file'));
+      this.copy('_Gruntfile.js', 'Gruntfile.js');
       this.fs.copy(
           this.templatePath('_package.json'),
           this.destinationPath('package.json')
       );
-      console.log(chalk.green('Writing bower.json file'));
       this.fs.copy(
           this.templatePath('_bower.json'),
           this.destinationPath('bower.json')
       );
-      console.log(chalk.green('Writing projects files'));
       this.projectfiles();
       console.log(chalk.green('Writing main modules files'));
       this.scaffoldModules();
-      console.log(chalk.green('Writing main files'));
       this.copyMainFiles();
     }
   },
 
   install: function () {
-    console.log(chalk.green('Install dependencies'));
-    //this.installDependencies();
-    console.log(chalk.green('Finished'));
+    console.log(chalk.green('Installing dependencies'));
+    this.installDependencies();
   }
 });
