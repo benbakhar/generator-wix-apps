@@ -1,7 +1,7 @@
 <html>
 <head>
 
-    <base href="<%= type %>">
+    <!--<base href="/<%= type %>">-->
     <title><%= site_name %></title>
 </head>
 <body data-ng-app="<%= app_name %>">
@@ -11,11 +11,11 @@
     Click to increment: <button data-ng-click="count = count+1" data-ng-init="count = 1" style="width: 100px">{{count}}</button>
 </div>
 
-<script src="../../bower_components/angular/angular.js"></script>
-<script src="../../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="<%= type %>.js"></script>
-<script src="<%= type %>.config.js"></script>
-<script src="<%= type %>.run.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="app/widget/<%= type %>.js"></script>
+<script src="app/widget/<%= type %>.config.js"></script>
+<script src="app/widget/<%= type %>.run.js"></script>
 <!--<script src="<%= type %>.router.js"></script>-->
 </body>
 </html>

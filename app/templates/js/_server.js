@@ -23,7 +23,7 @@ function configure () {
 
 // create db connections
 function connectDatabases () {
-    return require('./config/db');
+    return require('./server/config/db');
 }
 
 // init the models
@@ -61,8 +61,8 @@ function setupApp () {
     //app.use(restAPIFormatter);
 
     // Set App routes
-    //require('./routes')(app);
-    app.use(express.static(__dirname + '/'));
+    require('./routes')(app);
+    app.use(express.static(__dirname));
 
     //app.use(errorHandler);
 }

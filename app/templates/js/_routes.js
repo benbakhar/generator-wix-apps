@@ -1,6 +1,6 @@
 'use strict';
 
-var usersAPI = require('./api/users/usersAPI');
+var usersAPI = require('./server/api/users/usersAPI');
 
 module.exports = function(app) {
 

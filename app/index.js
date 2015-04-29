@@ -104,8 +104,8 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     // Copy server files
-    this.copy('js/_server.js', 'server/server.js');
-    this.copy('js/_routes.js', 'server/routes.js');
+    this.copy('js/_server.js', 'server.js');
+    this.copy('js/_routes.js', 'routes.js');
     this.copy('js/_db.js', 'server/config/db.js');
     this.template('js/_config.json', 'server/config/config.json', {app_name: this.appName});
     this.copy('js/_usersAPI.js', 'server/api/users/usersAPI.js');
