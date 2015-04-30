@@ -113,7 +113,15 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     app: function () {
-      this.copy('_Gruntfile.js', 'Gruntfile.js');
+      //this.copy('_Gruntfile.js', 'Gruntfile.js');
+
+      this.gruntfile.loadNpmTasks('grunt-nodemon');
+      this.gruntfile.loadNpmTasks('grunt-contrib-watch');
+      //this.gruntfile.insertConfig('watch', '{ scripts: {files: [\'**/*.js\'], tasks: [\'jshint\'], options: {spawn: false, livereload: true } } }\'');
+      this.gruntfile.insertConfig('nodemon', '{ dev: { script: \'server.js\'} }');
+      this.gruntfile.registerTask('build', 'compass');
+      this.gruntfile.registerTask('serve', ['nodemon', 'watch']);
+
       this.fs.copy(
           this.templatePath('_package.json'),
           this.destinationPath('package.json')

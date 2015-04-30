@@ -28,43 +28,53 @@ module.exports = function (grunt) {
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
-            options: {
-                nospawn: true,
-                livereload: true
-            },
-            js: {
-                files: ['{.tmp,<%%= yeoman.app %>}/scripts/{,*/}*.js'],
-                tasks: ['newer:jshint:all']
-            },
-            jsTest: {
-                files: ['test/spec/{,*/}*.js'],
-                tasks: ['newer:jshint:test', 'karma']
-            },
-            //<% if (compass) { %>
-            compass: {
-                files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['compass:server', 'autoprefixer']
-            },
-            // <% } else { %>
-            styles: {
-                files: ['<%%= yeoman.app %>/styles/{,*/}*.css'],
-                tasks: ['newer:copy:styles', 'autoprefixer']
-            },
-            // <% } %>
-            gruntfile: {
-                files: ['Gruntfile.js']
-            },
-            livereload: {
+            scripts: {
+                files: ['**/*.js'],
+                tasks: ['jshint'],
                 options: {
+                    spawn: false,
                     livereload: true
-                },
-                files: [
-                    '<%%= yeoman.app %>/{,*/}*.html',
-                    '.tmp/styles/{,*/}*.css',
-                    '<%%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
-                ]
+                }
             }
         },
+        //watch: {
+        //    options: {
+        //        nospawn: true,
+        //        livereload: true
+        //    },
+        //    js: {
+        //        files: ['{.tmp,<%%= yeoman.app %>}/scripts/{,*/}*.js'],
+        //        tasks: ['newer:jshint:all']
+        //    },
+        //    jsTest: {
+        //        files: ['test/spec/{,*/}*.js'],
+        //        tasks: ['newer:jshint:test', 'karma']
+        //    },
+        //    //<% if (compass) { %>
+        //    compass: {
+        //        files: ['<%%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
+        //        tasks: ['compass:server', 'autoprefixer']
+        //    },
+        //    // <% } else { %>
+        //    styles: {
+        //        files: ['<%%= yeoman.app %>/styles/{,*/}*.css'],
+        //        tasks: ['newer:copy:styles', 'autoprefixer']
+        //    },
+        //    // <% } %>
+        //    gruntfile: {
+        //        files: ['Gruntfile.js']
+        //    },
+        //    livereload: {
+        //        options: {
+        //            livereload: true
+        //        },
+        //        files: [
+        //            '<%%= yeoman.app %>/{,*/}*.html',
+        //            '.tmp/styles/{,*/}*.css',
+        //            '<%%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+        //        ]
+        //    }
+        //},
 
         // Empties folders to start fresh
         clean: {
