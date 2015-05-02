@@ -1,8 +1,29 @@
-<html>
+<!doctype html>
+<html class="no-js">
 <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!--<base href="/<%= type %>">-->
     <title><%= site_name %></title>
+
+    <!-- Overcomes IE9 problem with ignoring base tag -->
+    <!--[if IE 9]>
+    <script type="text/javascript">
+        // Fix for IE ignoring relative base tags.
+        // See http://stackoverflow.com/questions/3926197/html-base-tag-and-local-folder-path-with-internet-explorer
+        (function() {
+            var baseTag = document.getElementsByTagName('base')[0];
+            baseTag.href = baseTag.href;
+        })();
+    </script>
+    <![endif]-->
+
+    <link rel="stylesheet" href="../../bower_components/wix-ui-lib2/ui-lib.min.css">
+    <link rel="stylesheet" href="style/stylesheets/style.css">
+
+
 </head>
 <body data-ng-app="<%= app_name %>">
 <div class="container">
@@ -11,11 +32,20 @@
     <button data-ng-click="count = count+1" data-ng-init="count = 0">Click to increment: </button> {{count}}
 </div>
 
-<script src="bower_components/angular/angular.js"></script>
-<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script src="app/widget/<%= type %>.js"></script>
-<script src="app/widget/<%= type %>.config.js"></script>
-<script src="app/widget/<%= type %>.run.js"></script>
-<!--<script src="<%= type %>.router.js"></script>-->
+<script type="text/javascript" src="//sslstatic.wix.com/services/js-sdk/1.43.0/js/wix.min.js"></script>
+<script type="text/javascript">Wix.__disableStandaloneError__ = true;</script>
+
+<script src="../../bower_components/jquery/dist/jquery.js"></script>
+<script src="../../bower_components/angular/angular.js"></script>
+<script src="../../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+<script src="../../bower_components/lodash/dist/lodash.compat.js"></script>
+<script src="../../bower_components/angular-translate/angular-translate.js"></script>
+<script src="../../bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+<script src="../../bower_components/wix-ui-lib2/ui-lib.js"></script>
+
+<script src="<%= type %>.js"></script>
+<script src="<%= type %>.config.js"></script>
+<script src="<%= type %>.run.js"></script>
+<script src="<%= type %>.router.js"></script>
 </body>
 </html>

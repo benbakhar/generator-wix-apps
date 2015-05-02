@@ -1,15 +1,14 @@
 'use strict';
 
-var usersAPI = require('./server/api/users/usersAPI');
+var usersRouter    = require('./api/users/router');
 
 module.exports = function(app) {
 
     app.get('/', function(req, res){
-        res.sendfile('app/widget/widget.html');
+        res.sendfile('helloWorld.html');
     });
 
-    // Category Routes
-    app.route('/users')
-        .get(usersAPI.getList);
+    app.use('/users', usersRouter);
+
 
 };

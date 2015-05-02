@@ -3,6 +3,6 @@
  */
 'use strict';
 
-angular.module('<%= app_name %>').run(function() {
+angular.module('<%= app_name %>').run([function() {
 
-});
+}]);

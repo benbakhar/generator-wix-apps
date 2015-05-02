@@ -75,6 +75,8 @@ module.exports = yeoman.generators.Base.extend({
       mkdirp.sync( base + '/controllers' );
       mkdirp.sync( base + '/services' );
       mkdirp.sync( base + '/directives' );
+      mkdirp.sync( base + '/style' );
+      mkdirp.sync( base + '/style/stylesheets' );
     }
 
     mkdirp.sync('server');
@@ -93,22 +95,33 @@ module.exports = yeoman.generators.Base.extend({
 
       if ( !this['add_' + type] ) { break; }
 
-      context = { app_name: this.appName+ '.' + type };
+      // Copy main JS files
+      context = { app_name: this.appName+ '.' + type, type: type };
       this.template("js/_app.js", base + '/' + type + '.js', context);
       this.template("js/_config.js", base + '/' + type + '.config.js', context);
       this.template("js/_run.js", base + '/' + type + '.run.js', context);
-      this.copy("sass/_main.css", base + "/css/main.css");
+      this.template("js/_app.router.js", base + '/' + type + '.router.js', context);
 
+      this.template('js/_app.ctrl.js', base + '/controllers/HomeCtrl.js', context);
+
+      // Copy html files
       context = { type: type, site_name: this.appName, app_name: this.appName+ '.' + type };
       this.template("html/_index.html", base + '/' + type +".html", context);
+      this.copy("html/_home.html", base + '/views/home.html', context);
+
+      this.copy("sass/_main.css", base + "/style/stylesheets/style.css");
     }
 
     // Copy server files
-    this.copy('js/_server.js', 'server.js');
-    this.copy('js/_routes.js', 'routes.js');
+    this.copy('js/_server.js', 'server/server.js');
+    this.copy('js/_routes.js', 'server/routes.js');
+    this.copy('js/_core.index.js', 'server/core/index.js');
+    this.copy('js/_apiFormatter.js', 'server/core/apiFormatter.js');
     this.copy('js/_db.js', 'server/config/db.js');
     this.template('js/_config.json', 'server/config/config.json', {app_name: this.appName});
     this.copy('js/_usersAPI.js', 'server/api/users/usersAPI.js');
+    this.copy('js/_users.router.js', 'server/api/users/router.js');
+    this.copy("html/_helloWorld.html", 'server/helloWorld.html');
   },
 
   writing: {

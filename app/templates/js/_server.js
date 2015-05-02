@@ -23,7 +23,7 @@ function configure () {
 
 // create db connections
 function connectDatabases () {
-    return require('./server/config/db');
+    return require('./config/db');
 }
 
 // init the models
@@ -41,8 +41,8 @@ function setupApp () {
         morgan = require('morgan'),
         bodyParser = require('body-parser'),
         expressValidator = require('express-validator'),
-        methodOverride = require('method-override');
-    //restAPIFormatter = require('Core').restAPIFormatter,
+        methodOverride = require('method-override'),
+        restAPIFormatter = require('./core').apiFormatter;
     //errorHandler = require('Core').errorHandler;
 
     //app.set('view engine', 'ejs');
@@ -51,6 +51,7 @@ function setupApp () {
     app.use(methodOverride());                              // simulate DELETE and PUT
     app.use(bodyParser.urlencoded({extended : false}));    // parse application/x-www-form-urlencoded
     app.use(bodyParser.json());                             // parse application/json
+    app.use(express.static(__dirname + '/server'));
 
     //app.use('/js', express.static('views/js', {extensions: ['js']})); // static js files
 
@@ -62,7 +63,6 @@ function setupApp () {
 
     // Set App routes
     require('./routes')(app);
-    app.use(express.static(__dirname));
 
     //app.use(errorHandler);
 }

@@ -1,5 +1,5 @@
 
-function getList() {
+function getList(req) {
 
 }
 
