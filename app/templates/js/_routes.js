@@ -1,6 +1,6 @@
 'use strict';
 
-var usersRouter    = require('./api/users/router');
+var settingsRouter    = require('./api/settings/router');
 
 module.exports = function(app) {
 
@@ -8,7 +8,7 @@ module.exports = function(app) {
         res.sendfile('helloWorld.html');
     });
 
-    app.use('/users', usersRouter);
+    app.use('/users', settingsRouter);
 
 
 };

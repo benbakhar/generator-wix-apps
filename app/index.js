@@ -5,7 +5,6 @@ var yosay = require('yosay');
 var mkdirp = require('mkdirp');
 
 var modules = require('./utils').modules;
-//var _modules = ["widget", "settings", "core"];
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
@@ -65,8 +64,8 @@ module.exports = yeoman.generators.Base.extend({
 
   scaffoldModules: function() {
     var type, base;
-    for ( var i = 0; i < _modules.length; i++ ) {
-      type = _modules[i];
+    for ( var i = 0; i < modules.length; i++ ) {
+      type = modules[i];
       base = 'app/' + type;
 
       if ( !this['add_' + type] ) { break; }
@@ -89,8 +88,8 @@ module.exports = yeoman.generators.Base.extend({
     var type, base, context;
 
     // Copy client files
-    for ( var i = 0; i < _modules.length; i++ ) {
-      type = _modules[i];
+    for ( var i = 0; i < modules.length; i++ ) {
+      type = modules[i];
       base = 'app/' + type;
 
       if ( !this['add_' + type] ) { break; }
@@ -119,7 +118,7 @@ module.exports = yeoman.generators.Base.extend({
     this.copy('js/_apiFormatter.js', 'server/core/apiFormatter.js');
     this.copy('js/_db.js', 'server/config/db.js');
     this.template('js/_config.json', 'server/config/config.json', {app_name: this.appName});
-    this.copy('js/_settings.js', 'server/api/settings/settingsAPI.js');
+    this.copy('js/_settingsAPI.js', 'server/api/settings/settingsAPI.js');
     this.copy('js/_settings.router.js', 'server/api/settings/router.js');
     this.copy("html/_helloWorld.html", 'server/helloWorld.html');
   },
