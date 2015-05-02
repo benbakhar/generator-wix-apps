@@ -12,7 +12,7 @@ module.exports = yeoman.generators.Base.extend({
     this.pkg = require('../package.json');
 
     this.argument('appname', { type: String, required: false });
-    this.appname2 = this.appname || 'wixapp';
+    this.appName = this.appname || null; //'wixapp';
   },
 
   prompting: function () {
@@ -25,10 +25,6 @@ module.exports = yeoman.generators.Base.extend({
     ));
 
     var prompts = [{
-      name: 'appName',
-      message : 'What is your app\'s name'
-
-    },{
       type: 'confirm',
       name: 'addWidgetModule',
       message: 'Would you like to scaffold a widget module?',
@@ -45,11 +41,21 @@ module.exports = yeoman.generators.Base.extend({
       default: true
     }];
 
+    if ( !this.appName ) {
+        prompts.unshift({
+          name: 'appName',
+          message : 'What is your app\'s name?'
+        })
+    }
+
     this.prompt(prompts, function (props) {
-      this.appName = props.appName;
+
+      this.appName = this.appName || props.appName;
       this.add_widget = props.addWidgetModule;
       this.add_settings = props.addSettingsModule;
       this.add_core = props.addCoreModule;
+
+      console.log('updated: ', this.appName);
 
       done();
     }.bind(this));
