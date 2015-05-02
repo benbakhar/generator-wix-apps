@@ -3,12 +3,16 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var mkdirp = require('mkdirp');
+var path = require('path');
 
 var modules = require('./utils').modules;
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
     this.pkg = require('../package.json');
+
+    this.argument('appname', { type: String, required: false });
+    this.appname2 = this.appname || 'wixapp';
   },
 
   prompting: function () {
