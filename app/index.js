@@ -4,8 +4,8 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var mkdirp = require('mkdirp');
 
-//var _modules = require('config.json').modules;
-var _modules = ["widget", "settings", "core"];
+var modules = require('./utils').modules;
+//var _modules = ["widget", "settings", "core"];
 
 module.exports = yeoman.generators.Base.extend({
   initializing: function () {
@@ -82,7 +82,7 @@ module.exports = yeoman.generators.Base.extend({
     mkdirp.sync('server');
     mkdirp.sync('server/config');
     mkdirp.sync('server/api');
-    mkdirp.sync('server/api/users');
+    mkdirp.sync('server/api/settings');
   },
 
   copyMainFiles: function() {
@@ -119,8 +119,8 @@ module.exports = yeoman.generators.Base.extend({
     this.copy('js/_apiFormatter.js', 'server/core/apiFormatter.js');
     this.copy('js/_db.js', 'server/config/db.js');
     this.template('js/_config.json', 'server/config/config.json', {app_name: this.appName});
-    this.copy('js/_usersAPI.js', 'server/api/users/usersAPI.js');
-    this.copy('js/_users.router.js', 'server/api/users/router.js');
+    this.copy('js/_settings.js', 'server/api/settings/settingsAPI.js');
+    this.copy('js/_settings.router.js', 'server/api/settings/router.js');
     this.copy("html/_helloWorld.html", 'server/helloWorld.html');
   },
 
@@ -131,7 +131,7 @@ module.exports = yeoman.generators.Base.extend({
       this.gruntfile.loadNpmTasks('grunt-nodemon');
       this.gruntfile.loadNpmTasks('grunt-contrib-watch');
       //this.gruntfile.insertConfig('watch', '{ scripts: {files: [\'**/*.js\'], tasks: [\'jshint\'], options: {spawn: false, livereload: true } } }\'');
-      this.gruntfile.insertConfig('nodemon', '{ dev: { script: \'server.js\'} }');
+      this.gruntfile.insertConfig('nodemon', '{ dev: { script: \'server/server.js\'} }');
       this.gruntfile.registerTask('build', 'compass');
       this.gruntfile.registerTask('serve', ['nodemon', 'watch']);
 
