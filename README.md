@@ -1,5 +1,8 @@
 # generator-wix-apps
 
+> Yeoman generator for creating Wix application, using Node, Express, MongoDB and AngularJS.
+
+
 > [Yeoman](http://yeoman.io) generator
 
 
