@@ -5,7 +5,7 @@
 
 ## Getting Started
 
-Instal generator-wix-apps:
+Install generator-wix-apps:
 
 ```bash
 npm install -g generator-wix-apps
