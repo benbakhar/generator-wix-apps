@@ -59,7 +59,7 @@ function setupApp () {
     app.use(expressValidator(
         //{customValidators : customValidators}
     ));
-    //app.use(restAPIFormatter);
+    app.use(restAPIFormatter);
 
     // Set App routes
     require('./routes')(app);
