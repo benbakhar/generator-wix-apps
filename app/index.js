@@ -4,6 +4,7 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var mkdirp = require('mkdirp');
 var path = require('path');
+var _ = require('lodash');
 
 var modules = require('./utils').modules;
 
@@ -26,18 +27,8 @@ module.exports = yeoman.generators.Base.extend({
 
     var prompts = [{
       type: 'confirm',
-      name: 'addWidgetModule',
-      message: 'Would you like to scaffold a widget module?',
-      default: true
-    },{
-      type: 'confirm',
-      name: 'addSettingsModule',
-      message: 'Would you like to scaffold a settings module?',
-      default: true
-    },{
-      type: 'confirm',
-      name: 'addCoreModule',
-      message: 'Would you like to scaffold a core module?',
+      name: 'addWixService',
+      message: 'Would you like to inject Wix service?',
       default: true
     }];
 
@@ -51,11 +42,11 @@ module.exports = yeoman.generators.Base.extend({
     this.prompt(prompts, function (props) {
 
       this.appName = this.appName || props.appName;
-      this.add_widget = props.addWidgetModule;
-      this.add_settings = props.addSettingsModule;
-      this.add_core = props.addCoreModule;
-
-      console.log('updated: ', this.appName);
+      //this.add_widget = props.addWidgetModule;
+      //this.add_settings = props.addSettingsModule;
+      //this.add_core = props.addCoreModule;
+      this.filters = {};
+      this.filters.add_wix_service = props.addWixService;
 
       done();
     }.bind(this));
@@ -78,8 +69,6 @@ module.exports = yeoman.generators.Base.extend({
       type = modules[i];
       base = 'app/' + type;
 
-      if ( !this['add_' + type] ) { break; }
-
       mkdirp.sync( base );
       mkdirp.sync( base + '/controllers' );
       mkdirp.sync( base + '/services' );
@@ -97,12 +86,26 @@ module.exports = yeoman.generators.Base.extend({
   copyMainFiles: function() {
     var type, base, context;
 
-    // Copy client files
+    // Copy core module files
+    type = 'core';
+    context = { app_name: this.appName+ '.' + type, type: type };
+    this.template("js/_app.js", 'app/core/' + type + '.js', context);
+    this.template("js/_config.js", 'app/core/' + type + '.config.js', context);
+    this.template("js/_run.js", 'app/core/' + type + '.run.js', context);
+
+    // Copy selected services
+    if ( this.filters.add_wix_service ) {
+      context = { app_name: this.appName+ '.core' };
+      this.template("js/client/_services.wix.js", 'app/core/services/WixService.js', context)
+    }
+
+    // Copy widget and settings module files
     for ( var i = 0; i < modules.length; i++ ) {
+
       type = modules[i];
       base = 'app/' + type;
 
-      if ( !this['add_' + type] ) { break; }
+      if ( type === 'core' ) { continue; }
 
       // Copy main JS files
       context = { app_name: this.appName+ '.' + type, type: type };
@@ -110,11 +113,10 @@ module.exports = yeoman.generators.Base.extend({
       this.template("js/_config.js", base + '/' + type + '.config.js', context);
       this.template("js/_run.js", base + '/' + type + '.run.js', context);
       this.template("js/_app.router.js", base + '/' + type + '.router.js', context);
-
       this.template('js/_app.ctrl.js', base + '/controllers/HomeCtrl.js', context);
 
       // Copy html files
-      context = { type: type, site_name: this.appName, app_name: this.appName+ '.' + type };
+      context = { type: type, site_name: this.appName, app_name: this.appName+ '.' + type, filters: this.filters };
       this.template("html/_index.html", base + '/' + type +".html", context);
       this.copy("html/_home.html", base + '/views/home.html', context);
 

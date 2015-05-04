@@ -47,5 +47,9 @@
 <script src="<%= type %>.config.js"></script>
 <script src="<%= type %>.run.js"></script>
 <script src="<%= type %>.router.js"></script>
+
+<script src="../core/core.js"></script>
+<% if(filters.add_wix_service) { %>
+<script src="../core/services/WixService.js"></script><% } %>
 </body>
 </html>
