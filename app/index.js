@@ -24,6 +24,7 @@ module.exports = yeoman.generators.Base.extend({
     this.log(yosay(
         'Welcome to the amazing ' + chalk.red('Wixapps') + ' generator!'
     ));
+    this.log(chalk.yellow('Out of the box I create an AngularJS app with an Express server.\n'));
 
     var prompts = [{
       type: 'confirm',
@@ -41,11 +42,9 @@ module.exports = yeoman.generators.Base.extend({
 
     this.prompt(prompts, function (props) {
 
-      this.appName = this.appName || props.appName;
-      //this.add_widget = props.addWidgetModule;
-      //this.add_settings = props.addSettingsModule;
-      //this.add_core = props.addCoreModule;
       this.filters = {};
+
+      this.appName = this.appName || props.appName;
       this.filters.add_wix_service = props.addWixService;
 
       done();
@@ -89,14 +88,14 @@ module.exports = yeoman.generators.Base.extend({
     // Copy core module files
     type = 'core';
     context = { app_name: this.appName+ '.' + type, type: type };
-    this.template("js/_app.js", 'app/core/' + type + '.js', context);
-    this.template("js/_config.js", 'app/core/' + type + '.config.js', context);
-    this.template("js/_run.js", 'app/core/' + type + '.run.js', context);
+    this.template("js/client/_app.js", 'app/core/' + type + '.js', context);
+    this.template("js/client/_config.js", 'app/core/' + type + '.config.js', context);
+    this.template("js/client/_run.js", 'app/core/' + type + '.run.js', context);
 
     // Copy selected services
+    this.template("js/client/_services.settings.js", 'app/core/services/SettingsService.js', context);
     if ( this.filters.add_wix_service ) {
-      context = { app_name: this.appName+ '.core' };
-      this.template("js/client/_services.wix.js", 'app/core/services/WixService.js', context)
+      this.template("js/client/_services.wix.js", 'app/core/services/WixService.js', context);
     }
 
     // Copy widget and settings module files
@@ -109,11 +108,11 @@ module.exports = yeoman.generators.Base.extend({
 
       // Copy main JS files
       context = { app_name: this.appName+ '.' + type, type: type };
-      this.template("js/_app.js", base + '/' + type + '.js', context);
-      this.template("js/_config.js", base + '/' + type + '.config.js', context);
-      this.template("js/_run.js", base + '/' + type + '.run.js', context);
-      this.template("js/_app.router.js", base + '/' + type + '.router.js', context);
-      this.template('js/_app.ctrl.js', base + '/controllers/HomeCtrl.js', context);
+      this.template("js/client/_app.js", base + '/' + type + '.js', context);
+      this.template("js/client/_config.js", base + '/' + type + '.config.js', context);
+      this.template("js/client/_run.js", base + '/' + type + '.run.js', context);
+      this.template("js/client/_app.router.js", base + '/' + type + '.router.js', context);
+      this.template('js/client/_app.ctrl.js', base + '/controllers/HomeCtrl.js', context);
 
       // Copy html files
       context = { type: type, site_name: this.appName, app_name: this.appName+ '.' + type, filters: this.filters };
@@ -124,14 +123,14 @@ module.exports = yeoman.generators.Base.extend({
     }
 
     // Copy server files
-    this.copy('js/_server.js', 'server/server.js');
-    this.copy('js/_routes.js', 'server/routes.js');
-    this.copy('js/_core.index.js', 'server/core/index.js');
-    this.copy('js/_apiFormatter.js', 'server/core/apiFormatter.js');
-    this.copy('js/_db.js', 'server/config/db.js');
-    this.template('js/_config.json', 'server/config/config.json', {app_name: this.appName});
-    this.copy('js/_settingsAPI.js', 'server/api/settings/settingsAPI.js');
-    this.copy('js/_settings.router.js', 'server/api/settings/router.js');
+    this.copy('js/server/_server.js', 'server/server.js');
+    this.copy('js/server/_routes.js', 'server/routes.js');
+    this.copy('js/server/_core.index.js', 'server/core/index.js');
+    this.copy('js/server/_apiFormatter.js', 'server/core/apiFormatter.js');
+    this.copy('js/server/_db.js', 'server/config/db.js');
+    this.template('js/server/_config.json', 'server/config/config.json', {app_name: this.appName});
+    this.copy('js/server/_settingsAPI.js', 'server/api/settings/settingsAPI.js');
+    this.copy('js/server/_settings.router.js', 'server/api/settings/router.js');
     this.copy("html/_helloWorld.html", 'server/helloWorld.html');
   },
 

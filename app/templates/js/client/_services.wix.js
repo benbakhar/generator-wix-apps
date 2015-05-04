@@ -4,6 +4,8 @@
 
     function WixService($q) {
 
+        console.log('Hello Wix Service');
+
         //==============================
         //   FUNCTION DECLARATIONS     =
         //==============================
