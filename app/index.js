@@ -31,7 +31,13 @@ module.exports = yeoman.generators.Base.extend({
       name: 'addWixService',
       message: 'Would you like to inject Wix service?',
       default: true
-    }];
+    },
+      {
+        type: 'confirm',
+        name: 'addSass',
+        message: 'Would you like to add sass?',
+        default: true
+      }];
 
     if ( !this.appName ) {
         prompts.unshift({
@@ -46,6 +52,7 @@ module.exports = yeoman.generators.Base.extend({
 
       this.appName = this.appName || props.appName;
       this.filters.add_wix_service = props.addWixService;
+      this.filters.add_sass = props.addSass;
 
       done();
     }.bind(this));
@@ -58,7 +65,11 @@ module.exports = yeoman.generators.Base.extend({
     );
     this.fs.copy(
         this.templatePath('jshintrc'),
-        this.destinationPath('.jshintrc')
+        this.destinationPath('app/.jshintrc')
+    );
+    this.fs.copy(
+        this.templatePath('jshintrc'),
+        this.destinationPath('server/.jshintrc')
     );
   },
 
@@ -74,6 +85,7 @@ module.exports = yeoman.generators.Base.extend({
       mkdirp.sync( base + '/directives' );
       mkdirp.sync( base + '/style' );
       mkdirp.sync( base + '/style/stylesheets' );
+      mkdirp.sync( base + '/style/sass' );
     }
 
     mkdirp.sync('server');
@@ -119,7 +131,7 @@ module.exports = yeoman.generators.Base.extend({
       this.template("html/_index.html", base + '/' + type +".html", context);
       this.copy("html/_home.html", base + '/views/home.html', context);
 
-      this.copy("sass/_main.css", base + "/style/stylesheets/style.css");
+      this.copy("sass/_main.scss", base + "/style/sass/main.scss");
     }
 
     // Copy server files
@@ -136,14 +148,7 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     app: function () {
-      //this.copy('_Gruntfile.js', 'Gruntfile.js');
-
-      this.gruntfile.loadNpmTasks('grunt-nodemon');
-      this.gruntfile.loadNpmTasks('grunt-contrib-watch');
-      //this.gruntfile.insertConfig('watch', '{ scripts: {files: [\'**/*.js\'], tasks: [\'jshint\'], options: {spawn: false, livereload: true } } }\'');
-      this.gruntfile.insertConfig('nodemon', '{ dev: { script: \'server/server.js\'} }');
-      this.gruntfile.registerTask('build', 'compass');
-      this.gruntfile.registerTask('serve', ['nodemon', 'watch']);
+      this.copy('_Gruntfile.js', 'Gruntfile.js');
 
       this.fs.copy(
           this.templatePath('_package.json'),
@@ -161,7 +166,7 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   install: function () {
-    console.log(chalk.green('Installing dependencies'));
+    console.log(chalk.green('\nInstalling dependencies'));
     this.installDependencies();
   }
 });
