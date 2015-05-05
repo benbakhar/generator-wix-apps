@@ -9,6 +9,6 @@ module.exports = router;
 
 router.get('', function(req, res) {
 
-    res.promise(settingsAPI.getList(req))
+    res.promise(settingsAPI.getList(req));
 
 });
